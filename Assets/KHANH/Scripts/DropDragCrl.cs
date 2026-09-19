@@ -1,0 +1,139 @@
+using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+public class DropDragCrl : MonoBehaviour
+{
+    [SerializeField] private Image _imgFoodDrag;
+    [SerializeField] private float _timeCheckSuggest;
+
+    private FoodSlot _currentFood, _cacheFood;
+    private bool _hasDrag;
+    private Vector3 _offset;
+    private float _countTime;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        _countTime += Time.deltaTime;
+        if(_countTime >= _timeCheckSuggest)
+        {
+            _countTime = 0f;
+            GameManager.Instance?.OnCheckAndShake();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            
+            _currentFood = Utils.GetRayCastUI<FoodSlot>(Input.mousePosition); //check o vi ri click chuot xem co UI gan class FoodSlot
+            if(_currentFood != null && _currentFood.HasFood)
+            {
+                _hasDrag = true;
+                _cacheFood = _currentFood;
+                //Gan sprite food cho dummy image
+                _imgFoodDrag.gameObject.SetActive(true);
+                _imgFoodDrag.sprite = _currentFood.GetSpriteFood;
+                _imgFoodDrag.SetNativeSize();
+                _imgFoodDrag.transform.position = _currentFood.transform.position;
+
+                //tinh offset
+                Vector3 mouseWordPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _offset = mouseWordPos - _currentFood.transform.position;
+
+                _currentFood.OnActiveFood(false);
+            }
+        }
+
+        if (_hasDrag)
+        {
+            Vector3 mouseWordPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 foodPos = mouseWordPos + _offset;
+            foodPos.z = 0f;
+            _imgFoodDrag.transform.position = foodPos;
+            _countTime = 0f;
+
+            FoodSlot slot = Utils.GetRayCastUI<FoodSlot>(Input.mousePosition);
+            if (slot != null)
+            {
+                if (!slot.HasFood) // vi tri item chua co food
+                {
+                    if (_cacheFood == null || _cacheFood.GetInstanceID() != slot.GetInstanceID())
+                    {
+                        _cacheFood?.OnHideFood();
+                        _cacheFood = slot;
+                        _cacheFood.OnFadeFood();
+                        _cacheFood.OnSetSlot(_currentFood.GetSpriteFood);
+                    }
+                }
+                else // vi tri tro chuot da co item
+                {                   
+                    FoodSlot slotAvailable = slot.GetSlotNull;
+                    if(slotAvailable != null)
+                    {
+                        _cacheFood?.OnHideFood();
+                        _cacheFood = slotAvailable;
+                        _cacheFood.OnFadeFood();
+                        _cacheFood.OnSetSlot(_currentFood.GetSpriteFood);
+                    }
+                    else
+                    {
+                        this.OnClearCacheSlot();
+                    }
+                }
+               
+            }
+            else
+            {
+                if (_cacheFood != null)
+                {
+                    _cacheFood.OnHideFood();
+                    _cacheFood = null;
+                }
+            }
+
+        }
+
+        if(Input.GetMouseButtonUp(0) && _hasDrag)
+        {
+            if(_cacheFood != null)
+            {
+                _imgFoodDrag.transform.DOMove(_cacheFood.transform.position, 0.15f).OnComplete(() =>
+                {                    
+                    _imgFoodDrag.gameObject.SetActive(false);
+                    _cacheFood.OnSetSlot(_currentFood.GetSpriteFood);
+                    _cacheFood.OnActiveFood(true);
+                    _cacheFood.OnCheckMerge();
+                    _currentFood?.OnCheckPrepareTray();
+                    _cacheFood = null;
+                    _currentFood = null;
+                });
+            }
+            else // xu ly tro ve vi tri ban dau
+            {
+                _imgFoodDrag.transform.DOMove(_currentFood.transform.position, 0.3f).OnComplete(() =>
+                {
+                    _imgFoodDrag.gameObject.SetActive(false);
+                    _currentFood.OnActiveFood(true);
+                });
+            }
+
+                _hasDrag = false;
+
+        }
+    }
+
+    private void OnClearCacheSlot()
+    {
+        if (_cacheFood != null && _cacheFood.GetInstanceID() != _currentFood.GetInstanceID())
+        {
+            _cacheFood.OnHideFood();
+            _cacheFood = null;
+        }
+      
+        
+    }
+}
