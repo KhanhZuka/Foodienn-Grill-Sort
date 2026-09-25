@@ -16,6 +16,11 @@ namespace KHANH.FoodienGrillSort
         private int _allFood;
         private int _totalFood; // tong so loai thuc an, vi du 18/30
         private int _totalGrill; //tong so bep
+        private int _coin;
+        private int _shipperTriggerFoodCount;
+        private int _requiredFoodCount;
+        private int _waitShipperTime;
+        public int waitShipperTime => _waitShipperTime;
 
         [SerializeField] private LevelData[] _levels;
 
@@ -57,11 +62,11 @@ namespace KHANH.FoodienGrillSort
             _seconds = _levelTime - _minutes * 60;
 
         }
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+
         void Start()
         {
             _foodProgressText.text = _completedFood.ToString() + "/" + _allFood.ToString();
-            _timeTxt.text = _minutes.ToString() + ":" + _seconds.ToString();         
+            _timeTxt.text = _minutes.ToString() + ":" + _seconds.ToString();
         }
 
         private void Update()
@@ -88,9 +93,10 @@ namespace KHANH.FoodienGrillSort
                     else
                     {
                         _isPlaying = false;
-                        GUIManager.Instance.continueDialog.Show(true);                       
+                        Shipper.Instance.HideCustomer();
+                        GUIManager.Instance.continueDialog.Show(true);
                     }
-                        
+
                 }
 
             }
@@ -100,10 +106,14 @@ namespace KHANH.FoodienGrillSort
         {
             _currentLevel = _levels[levelIndex];
 
-             _allFood = _currentLevel.allFood;
-             _totalFood = _currentLevel.totalFood;
-             _totalGrill = _currentLevel.totalGrill;
-             _levelTime = _currentLevel.levelTime;
+            _allFood = _currentLevel.allFood;
+            _totalFood = _currentLevel.totalFood;
+            _totalGrill = _currentLevel.totalGrill;
+            _levelTime = _currentLevel.levelTime;
+            _coin = _currentLevel.coin;
+            _shipperTriggerFoodCount = _currentLevel.ShipperTriggerFoodCount;
+            _requiredFoodCount = _currentLevel.requiredFoodCount;
+            _waitShipperTime = _currentLevel.shipperTime;
 
             Debug.Log("Level: " + (levelIndex + 1));
         }
@@ -115,11 +125,11 @@ namespace KHANH.FoodienGrillSort
 
         public void PlayGame()
         {
-            _isPlaying = true;         
+            _isPlaying = true;
             ResetGame();
             LoadLevel(Pref.CurrentLevel);
             ResetGame();
-            GUIManager.Instance.ShowGameGUI(true);           
+            GUIManager.Instance.ShowGameGUI(true);
             OnInitLevel();
         }
 
@@ -158,7 +168,7 @@ namespace KHANH.FoodienGrillSort
             }
 
             _avgTray = Random.Range(1.8f, 2.3f);
-            int totalTray = Mathf.RoundToInt((float)useFood.Count / _avgTray); // tinh tong so dia
+            int totalTray = Mathf.RoundToInt((float)useFood.Count / _avgTray) + 5; // tinh tong so dia
 
             List<int> trayPerGrill = this.DistributeEvelyn(_totalGrill, totalTray);
             List<int> foodPerGrill = this.DistributeEvelyn(_totalGrill, useFood.Count);
@@ -211,14 +221,18 @@ namespace KHANH.FoodienGrillSort
             _remainFood--;
             _completedFood++;
 
+            if (_completedFood == _shipperTriggerFoodCount)
+                Shipper.Instance.ShowCustomer();
+
             _foodProgressText.text =
-                _completedFood + "/" + _allFood;
+                _completedFood + "/" + _allFood;          
 
             if (_remainFood <= 0)
             {
                 GUIManager.Instance.winDialog.Show(true);
                 _isPlaying = false;
                 Pref.CurrentLevel++;
+                Pref.Coin += _coin;
                 Debug.Log("Game complete");
             }
         }
@@ -435,8 +449,56 @@ namespace KHANH.FoodienGrillSort
             }
         }
 
-    }
+    
 
+    public List<Sprite> OnShipper()
+        {
+            List<Sprite> curentFood = new List<Sprite>();
+            for (int i = 0; i < _listGrills.Count; i++)
+            {
+                GrillStation grill = _listGrills[i];
+                for(int j = 0; j < grill.TotalSlot.Count; j++)
+                {
+                    FoodSlot slot = grill.TotalSlot[j];
+                    if (slot.HasFood && !curentFood.Contains(slot.GetSpriteFood))
+                    {
+                        curentFood.Add(slot.GetSpriteFood);
+                    }                  
+                }
+                Trayitem tray = grill.GetFirstTray();
+                if (tray != null)
+                {
+                    for (int k = 0; k < tray.FoodList.Count; k++)
+                    {
+                        Image img = tray.FoodList[k];
+
+                        if (img.gameObject.activeInHierarchy)
+                        {
+                            Sprite food = img.sprite;
+
+                            if (!curentFood.Contains(food))
+                                curentFood.Add((food));
+                        }
+                    }
+                }
+            }
+
+            //Sap xep ngau nhien
+            for(int i = 0; i < curentFood.Count; i++)
+            {
+                int randomIndex = Random.Range(i, curentFood.Count);
+
+                (curentFood[i], curentFood[randomIndex]) = (curentFood[randomIndex], curentFood[i]);
+            }
+
+            // lay so do an yeu cau requiredFoodCount
+            while(curentFood.Count > _requiredFoodCount)
+            {
+                curentFood.RemoveAt(curentFood.Count - 1);
+            }
+            return curentFood;
+        }
+    }
 
 }
 

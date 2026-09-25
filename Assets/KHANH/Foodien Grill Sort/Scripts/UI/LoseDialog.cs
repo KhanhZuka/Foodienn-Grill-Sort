@@ -21,11 +21,12 @@ namespace KHANH.FoodienGrillSort
 
         public override void Close()
         {
-            base.Close();
+            base.Close();            
         }
 
         private void OnExit()
         {
+            Pref.Heart--;
             GUIManager.Instance.ShowGameGUI(false);
             gameObject.SetActive(false);
         }

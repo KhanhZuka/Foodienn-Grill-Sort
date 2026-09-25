@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::KHANH.FoodienGrillSort.LevelData
   allFood: 8
-  totalFood: 5
+  totalFood: 6
   totalGrill: 5
-  levelTime: 100
+  levelTime: 60
+  coin: 20
+  ShipperTriggerFoodCount: 4
+  requiredFoodCount: 1
+  shipperTime: 20

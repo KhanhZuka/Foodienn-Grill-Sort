@@ -15,4 +15,8 @@ MonoBehaviour:
   allFood: 15
   totalFood: 13
   totalGrill: 8
-  levelTime: 160
+  levelTime: 120
+  coin: 35
+  ShipperTriggerFoodCount: 8
+  requiredFoodCount: 2
+  shipperTime: 30

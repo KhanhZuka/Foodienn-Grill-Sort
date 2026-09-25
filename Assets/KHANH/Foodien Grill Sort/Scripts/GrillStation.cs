@@ -122,11 +122,8 @@ namespace KHANH.FoodienGrillSort
                 if (!_totalSlot[i].HasFood)
                 {
                     return _totalSlot[i];
-
                 }
-
             }
-
             return tmp;
         }
 
@@ -146,6 +143,7 @@ namespace KHANH.FoodienGrillSort
             {
                 if (this.CanMerge())
                 {
+                    Debug.Log("Complete Grill");
                     StartCoroutine(IEMerge());
 
                     this.OnPrepareTray(false);
@@ -214,6 +212,7 @@ namespace KHANH.FoodienGrillSort
                 if (_totalSlot[i].GetSpriteFood.name != name)
                     return false;
             }
+            Shipper.Instance.OnFoodCompleted(_totalSlot[0].GetSpriteFood);
             return true;
         }
 
