@@ -64,9 +64,11 @@ namespace KHANH.FoodienGrillSort
                     }
                     else
                     {
+                        AudioController.Instance.StopMusic();
                         _isDelivering = false;
                         Shipper.Instance.HideCustomer();
-                        GUIManager.Instance.continueDialog.Show(true);
+                        GUIManager.Instance.continueDialog.Show(true);                        
+                        AudioController.Instance.PlaySound(AudioController.Instance.LoseGame);                      
                     }
 
                 }
@@ -111,11 +113,13 @@ namespace KHANH.FoodienGrillSort
                 _orderList[i].gameObject.SetActive(true);
             }
 
+            AudioController.Instance.PlaySound(AudioController.Instance.Bip);
+
             _customer.DOAnchorPosX(_targetX, _moveTime)
                 .SetEase(Ease.OutBack)
                 .OnComplete(() =>
                 {
-                    _orderNotice.DOScale(Vector3.one, 0.3f)
+                    _orderNotice.DOScale(Vector3.one, 0.1f)
                         .SetEase(Ease.OutBack);
                 });
         }
@@ -139,7 +143,11 @@ namespace KHANH.FoodienGrillSort
             {
                 _requiredFoods.Remove(food);
                 if (_requiredFoods.Count == 0)
+                {
+                    AudioController.Instance.PlaySound(AudioController.Instance.ThankYou);
                     HideCustomer();
+                }
+                    
             }
 
 

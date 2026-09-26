@@ -14,6 +14,7 @@ namespace KHANH.FoodienGrillSort
         public Dialog continueDialog;
         public Dialog loseDialog;
         public Dialog skipDeliveryDialog;
+        public HomePanel homePanel;
         public Text coinTxt;
         public Text heartTxt;
         public Text timeOfHeartTxt;

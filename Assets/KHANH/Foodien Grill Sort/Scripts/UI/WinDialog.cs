@@ -11,7 +11,9 @@ namespace KHANH.FoodienGrillSort
 
         public override void Close()
         {
-            base.Close();
+            AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
+            base.Close();           
+            AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 0);
         }
     }
 }

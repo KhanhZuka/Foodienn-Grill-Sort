@@ -26,9 +26,11 @@ namespace KHANH.FoodienGrillSort
 
         private void OnExit()
         {
+            AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
             Pref.Heart--;
             GUIManager.Instance.ShowGameGUI(false);
             gameObject.SetActive(false);
+            AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 0);
         }
 
 

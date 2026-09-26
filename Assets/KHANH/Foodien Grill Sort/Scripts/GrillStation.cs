@@ -148,6 +148,7 @@ namespace KHANH.FoodienGrillSort
 
                     this.OnPrepareTray(false);
                     GameManager.Instance?.OnMinusFood();
+                    AudioController.Instance.PlaySound(AudioController.Instance.MergeFood);
                 }
             }
 

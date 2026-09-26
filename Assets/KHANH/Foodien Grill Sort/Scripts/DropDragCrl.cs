@@ -113,6 +113,7 @@ namespace KHANH.FoodienGrillSort
                         _currentFood?.OnCheckPrepareTray();
                         _cacheFood = null;
                         _currentFood = null;
+                        AudioController.Instance.PlaySound(AudioController.Instance.GrilledMeat);
                     });
                 }
                 else // xu ly tro ve vi tri ban dau

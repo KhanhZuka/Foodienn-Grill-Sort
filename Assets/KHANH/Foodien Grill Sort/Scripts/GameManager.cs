@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace KHANH.FoodienGrillSort
         private int _allFood;
         private int _totalFood; // tong so loai thuc an, vi du 18/30
         private int _totalGrill; //tong so bep
+        private int _levelTime;
         private int _coin;
         private int _shipperTriggerFoodCount;
         private int _requiredFoodCount;
@@ -43,12 +45,11 @@ namespace KHANH.FoodienGrillSort
         private int _completedFood = 0;
 
         [SerializeField] private Text _timeTxt;
-        private int _levelTime;
         private int _minutes;
-        private int _seconds;
+        public int _seconds;
         private float _timePerSecond = 0f;
 
-        private bool _isPlaying;
+        public bool _isPlaying;
 
         private void Awake()
         {
@@ -93,8 +94,10 @@ namespace KHANH.FoodienGrillSort
                     else
                     {
                         _isPlaying = false;
+                        AudioController.Instance.StopMusic();
                         Shipper.Instance.HideCustomer();
                         GUIManager.Instance.continueDialog.Show(true);
+                        AudioController.Instance.PlaySound(AudioController.Instance.LoseGame);
                     }
 
                 }
@@ -125,6 +128,11 @@ namespace KHANH.FoodienGrillSort
 
         public void PlayGame()
         {
+            if(AudioController.Instance != null)
+            {
+                AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
+                AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 1);
+            }
             _isPlaying = true;
             ResetGame();
             LoadLevel(Pref.CurrentLevel);
@@ -222,17 +230,28 @@ namespace KHANH.FoodienGrillSort
             _completedFood++;
 
             if (_completedFood == _shipperTriggerFoodCount)
-                Shipper.Instance.ShowCustomer();
+            {
+                StartCoroutine(IEShowCustomer());
+
+                IEnumerator IEShowCustomer()
+                {
+                    yield return new WaitForSeconds(1);
+                    Shipper.Instance.ShowCustomer();
+                }
+            }
+                
 
             _foodProgressText.text =
                 _completedFood + "/" + _allFood;          
 
             if (_remainFood <= 0)
             {
+                AudioController.Instance.StopMusic();
                 GUIManager.Instance.winDialog.Show(true);
                 _isPlaying = false;
                 Pref.CurrentLevel++;
                 Pref.Coin += _coin;
+                AudioController.Instance.PlaySound(AudioController.Instance.LevelComplete);                
                 Debug.Log("Game complete");
             }
         }
