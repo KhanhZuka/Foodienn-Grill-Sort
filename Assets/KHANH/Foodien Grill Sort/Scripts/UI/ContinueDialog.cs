@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace KHANH.FoodienGrillSort
 {
     public class ContinueDialog : Dialog
     {
+        [SerializeField] private Image insufficientCoinsNotice;
         public override void Show(bool isShow)
         {
             base.Show(isShow);
@@ -25,12 +28,19 @@ namespace KHANH.FoodienGrillSort
                 GameManager.Instance._seconds = 45;
                 GameManager.Instance._isPlaying = true;
                 Pref.Coin -= 30;
-                GUIManager.Instance.homePanel.UpdateHomeCoin();
+                GUIManager.Instance.UpdateHomeCoin();
                 AudioController.Instance.PlayMusic(AudioController.Instance.bgms,1);
             }
             else
             {
-                Debug.Log("Ban khong du coin");
+                //Debug.Log("Ban khong du coin");
+                insufficientCoinsNotice.gameObject.SetActive(true);
+                StartCoroutine(IENotice());
+
+                IEnumerator IENotice(){
+                    yield return new WaitForSeconds(1);
+                    insufficientCoinsNotice.gameObject.SetActive(false);
+                }
             }
         }
     }

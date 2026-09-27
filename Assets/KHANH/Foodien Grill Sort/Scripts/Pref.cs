@@ -13,7 +13,7 @@ namespace KHANH.FoodienGrillSort
         public static int Coin
         {
             set => PlayerPrefs.SetInt("Coin", value);
-            get => PlayerPrefs.GetInt("Coin", 40);
+            get => PlayerPrefs.GetInt("Coin", 500);
         }
 
         public static int Heart
@@ -32,6 +32,24 @@ namespace KHANH.FoodienGrillSort
         {
             set => PlayerPrefs.SetFloat("SOUND_VOL__PREF", value);
             get => PlayerPrefs.GetFloat("SOUND_VOL__PREF", 1f);
+        }
+
+        public static int Magnet
+        {
+            set => PlayerPrefs.SetInt("Magnet", value);
+            get => PlayerPrefs.GetInt("Magnet", 1);
+        }
+
+        public static int Shuffle
+        {
+            set => PlayerPrefs.SetInt("Shuffle", value);
+            get => PlayerPrefs.GetInt("Shuffle", 1);
+        }
+
+        public static int ExtraGrill
+        {
+            set => PlayerPrefs.SetInt("ExtraGrill", value);
+            get => PlayerPrefs.GetInt("ExtraGrill", 1);
         }
     }
 }

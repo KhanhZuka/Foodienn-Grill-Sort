@@ -3,18 +3,17 @@ using UnityEngine.UI;
 
 namespace KHANH.FoodienGrillSort
 {
-    public class HomePanel : MonoBehaviour
+    public class HomePanel : Dialog
     {
         public RectTransform Selected;
         public Button ShopBtn;
         public Button HomeBtn;
-        public Button RankBtn;
-        [SerializeField] private Text coinTxt;
+        public Button RankBtn;       
+        [SerializeField] private Image rankDialog;
 
         private void Awake()
         {
-            SetSelectedItem(1);
-            coinTxt.text = Pref.Coin.ToString();
+            SetSelectedItem(1);            
         }
 
         private void Start()
@@ -23,6 +22,16 @@ namespace KHANH.FoodienGrillSort
             ShopBtn.onClick.AddListener(() => SetSelectedItem(0));
             HomeBtn.onClick.AddListener(() => SetSelectedItem(1));
             RankBtn.onClick.AddListener(() => SetSelectedItem(2));
+        }
+
+        public override void Show(bool isShow)
+        {
+            base.Show(isShow);
+        }
+
+        public override void Close()
+        {
+            base.Close();
         }
 
         private void SetSelectedItem(int index)
@@ -80,9 +89,16 @@ namespace KHANH.FoodienGrillSort
             }
         }
 
-        public void UpdateHomeCoin()
+        public void SetActiveTrueRankDialog()
         {
-            coinTxt.text = Pref.Coin.ToString();
+            rankDialog.gameObject.SetActive (true);
         }
+
+        public void SetActiveFalseRankDialog()
+        {
+            rankDialog.gameObject.SetActive (false);
+        }
+
+
     }
 }

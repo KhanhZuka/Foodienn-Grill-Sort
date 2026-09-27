@@ -49,6 +49,10 @@ namespace KHANH.FoodienGrillSort
         public int _seconds;
         private float _timePerSecond = 0f;
 
+        [SerializeField] private Text _magnetTxt;
+        [SerializeField] private Text _shuffleTxt;
+        [SerializeField] private Text _extraGrillTxt;
+
         public bool _isPlaying;
 
         private void Awake()
@@ -61,7 +65,9 @@ namespace KHANH.FoodienGrillSort
             LoadLevel(Pref.CurrentLevel);
             _minutes = _levelTime / 60;
             _seconds = _levelTime - _minutes * 60;
-
+            _magnetTxt.text = Pref.Magnet.ToString();
+            _shuffleTxt.text = Pref.Shuffle.ToString();
+            _extraGrillTxt.text = Pref.ExtraGrill.ToString();
         }
 
         void Start()
@@ -117,6 +123,9 @@ namespace KHANH.FoodienGrillSort
             _shipperTriggerFoodCount = _currentLevel.ShipperTriggerFoodCount;
             _requiredFoodCount = _currentLevel.requiredFoodCount;
             _waitShipperTime = _currentLevel.shipperTime;
+            _magnetTxt.text = Pref.Magnet.ToString();
+            _shuffleTxt.text = Pref.Shuffle.ToString();
+            _extraGrillTxt.text = Pref.ExtraGrill.ToString();
 
             Debug.Log("Level: " + (levelIndex + 1));
         }
@@ -294,141 +303,156 @@ namespace KHANH.FoodienGrillSort
 
         public void OnMagnet()
         {
-            Dictionary<string, List<Image>> groups = new Dictionary<string, List<Image>>();
-
-            foreach (var grill in _listGrills)
+            if(Pref.Magnet >= 1)
             {
-                if (grill.gameObject.activeInHierarchy)
-                {
-                    for (int i = 0; i < grill.TotalSlot.Count; i++)
-                    {
-                        FoodSlot slot = grill.TotalSlot[i];
-                        if (slot.HasFood)
-                        {
-                            string name = slot.GetSpriteFood.name;
-                            if (!groups.ContainsKey(name))
-                            {
-                                groups.Add(name, new List<Image>());
-                            }
-
-                            groups[name].Add(slot.ImgFood);
-                        }
-
-                    }
-
-                    Trayitem tray = grill.GetFirstTray();
-                    if (tray != null)
-                    {
-                        for (int i = 0; i < tray.FoodList.Count; i++)
-                        {
-                            Image img = tray.FoodList[i];
-                            if (img.gameObject.activeInHierarchy)
-                            {
-                                string name = img.sprite.name;
-                                if (!groups.ContainsKey(name))
-                                    groups.Add(name, new List<Image>());
-
-                                groups[name].Add(img);
-                            }
-                        }
-                    }
-                }
-            }
-
-            StartCoroutine(IECollect());
-
-            IEnumerator IECollect()
-            {
-                foreach (var kvp in groups)
-                {
-                    if (kvp.Value.Count >= 3)
-                    {
-                        _magnetFX.DOScale(Vector3.one, 0.4f);
-                        yield return new WaitForSeconds(0.3f);
-
-                        for (int i = 0; i < 3; i++)
-                        {
-                            Image imgDummy = _magnetList[i];
-                            Image imgFood = kvp.Value[i];
-                            imgDummy.sprite = imgFood.sprite;
-                            imgDummy.SetNativeSize();
-                            imgDummy.transform.position = imgFood.transform.position;
-                            imgDummy.gameObject.SetActive(true);
-                            imgFood.gameObject.SetActive(false);
-                            imgDummy.color = new Color(1f, 1f, 1f, 1f);
-
-                            Vector3 mid = (imgDummy.transform.position + _magnetFX.position) / 2f;
-                            mid += new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
-                            Vector3[] path = new Vector3[] { imgDummy.transform.position, mid, _magnetFX.position };
-
-                            Sequence seq = DOTween.Sequence();
-                            seq.Join(imgDummy.transform.DOPath(path, 1.5f, PathType.CatmullRom))
-                                .Join(imgDummy.DOColor(new Color(1f, 1f, 1f, 0.1f), 1.5f))
-                                .SetEase(Ease.OutQuad)
-                                .OnComplete(() =>
-                                {
-                                    imgDummy.gameObject.SetActive(false);
-                                    imgDummy.transform.localScale = Vector3.one;
-                                    imgFood.gameObject.SendMessageUpwards("OnCheckPrepareTray");
-                                });
-
-                            yield return new WaitForSeconds(0.1f);
-                        }
-
-                        yield return new WaitForSeconds(1f);
-                        _magnetFX.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack);
-                        OnMinusFood();
-                        yield break;
-                    }
-                }
-            }
-        }
-
-        public void OnShuffle()
-        {
-            StartCoroutine(IEShuffle());
-
-            IEnumerator IEShuffle()
-            {
-                List<Image> result = new List<Image>();
+                Dictionary<string, List<Image>> groups = new Dictionary<string, List<Image>>();
 
                 foreach (var grill in _listGrills)
                 {
                     if (grill.gameObject.activeInHierarchy)
                     {
-                        result.AddRange(grill.ListFoodActive());
-                        grill.OnShuffleFX();
+                        for (int i = 0; i < grill.TotalSlot.Count; i++)
+                        {
+                            FoodSlot slot = grill.TotalSlot[i];
+                            if (slot.HasFood)
+                            {
+                                string name = slot.GetSpriteFood.name;
+                                if (!groups.ContainsKey(name))
+                                {
+                                    groups.Add(name, new List<Image>());
+                                }
+
+                                groups[name].Add(slot.ImgFood);
+                            }
+
+                        }
+
+                        Trayitem tray = grill.GetFirstTray();
+                        if (tray != null)
+                        {
+                            for (int i = 0; i < tray.FoodList.Count; i++)
+                            {
+                                Image img = tray.FoodList[i];
+                                if (img.gameObject.activeInHierarchy)
+                                {
+                                    string name = img.sprite.name;
+                                    if (!groups.ContainsKey(name))
+                                        groups.Add(name, new List<Image>());
+
+                                    groups[name].Add(img);
+                                }
+                            }
+                        }
                     }
                 }
 
-                yield return new WaitForSeconds(0.25f);
-                for (int i = 0; i < result.Count; i++)
+                StartCoroutine(IECollect());
+
+                IEnumerator IECollect()
                 {
-                    int n = Random.Range(0, result.Count);
-                    Sprite tmp = result[i].sprite;
-                    result[i].sprite = result[n].sprite;
-                    result[n].sprite = tmp;
-                    result[i].SetNativeSize();
-                    result[n].SetNativeSize();
+                    foreach (var kvp in groups)
+                    {
+                        if (kvp.Value.Count >= 3)
+                        {
+                            _magnetFX.DOScale(Vector3.one, 0.4f);
+                            yield return new WaitForSeconds(0.3f);
+
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Image imgDummy = _magnetList[i];
+                                Image imgFood = kvp.Value[i];
+                                imgDummy.sprite = imgFood.sprite;
+                                imgDummy.SetNativeSize();
+                                imgDummy.transform.position = imgFood.transform.position;
+                                imgDummy.gameObject.SetActive(true);
+                                imgFood.gameObject.SetActive(false);
+                                imgDummy.color = new Color(1f, 1f, 1f, 1f);
+
+                                Vector3 mid = (imgDummy.transform.position + _magnetFX.position) / 2f;
+                                mid += new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
+                                Vector3[] path = new Vector3[] { imgDummy.transform.position, mid, _magnetFX.position };
+
+                                Sequence seq = DOTween.Sequence();
+                                seq.Join(imgDummy.transform.DOPath(path, 1.5f, PathType.CatmullRom))
+                                    .Join(imgDummy.DOColor(new Color(1f, 1f, 1f, 0.1f), 1.5f))
+                                    .SetEase(Ease.OutQuad)
+                                    .OnComplete(() =>
+                                    {
+                                        imgDummy.gameObject.SetActive(false);
+                                        imgDummy.transform.localScale = Vector3.one;
+                                        imgFood.gameObject.SendMessageUpwards("OnCheckPrepareTray");
+                                    });
+
+                                yield return new WaitForSeconds(0.1f);
+                            }
+
+                            yield return new WaitForSeconds(1f);
+                            _magnetFX.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack);
+                            OnMinusFood();
+                            yield break;
+                        }
+                    }
                 }
-            }
+                Pref.Magnet--;
+                _magnetTxt.text = Pref.Magnet.ToString();
+            }   
+        }
+
+        public void OnShuffle()
+        {
+            if(Pref.Shuffle >= 1)
+            {
+                StartCoroutine(IEShuffle());
+
+                IEnumerator IEShuffle()
+                {
+                    List<Image> result = new List<Image>();
+
+                    foreach (var grill in _listGrills)
+                    {
+                        if (grill.gameObject.activeInHierarchy)
+                        {
+                            result.AddRange(grill.ListFoodActive());
+                            grill.OnShuffleFX();
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.25f);
+                    for (int i = 0; i < result.Count; i++)
+                    {
+                        int n = Random.Range(0, result.Count);
+                        Sprite tmp = result[i].sprite;
+                        result[i].sprite = result[n].sprite;
+                        result[n].sprite = tmp;
+                        result[i].SetNativeSize();
+                        result[n].SetNativeSize();
+                    }
+                }
+                Pref.Shuffle--;
+                _shuffleTxt.text = Pref.Shuffle.ToString();
+            }          
         }
 
         public void OnAddMoreGrill()
         {
-            foreach (var grill in _listGrills)
+            if(Pref.ExtraGrill >= 1)
             {
-                if (!grill.gameObject.activeInHierarchy)
+                foreach (var grill in _listGrills)
                 {
-                    // Bật bếp mới
-                    grill.gameObject.SetActive(true);
+                    if (!grill.gameObject.activeInHierarchy)
+                    {
+                        // Bật bếp mới
+                        grill.gameObject.SetActive(true);
 
-                    UpdateGrillSize();
+                        UpdateGrillSize();
 
-                    // Chỉ thêm 1 bếp
-                    break;
+                        // Chỉ thêm 1 bếp
+                        break;
+                    }
                 }
             }
+            Pref.ExtraGrill--;
+            _extraGrillTxt.text = Pref.ExtraGrill.ToString();
         }
 
         private void UpdateGrillSize()

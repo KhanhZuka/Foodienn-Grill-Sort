@@ -15,7 +15,8 @@ namespace KHANH.FoodienGrillSort
         public Dialog loseDialog;
         public Dialog skipDeliveryDialog;
         public HomePanel homePanel;
-        public Text coinTxt;
+        [SerializeField] private Text coinTxt;
+        public Text CoinTxt => coinTxt;
         public Text heartTxt;
         public Text timeOfHeartTxt;
         private float timeSecond;
@@ -78,6 +79,16 @@ namespace KHANH.FoodienGrillSort
                 heartTxt.text= Pref.Heart.ToString();
             }
                 
+        }
+
+        public void UpdateHomeCoin()
+        {
+            coinTxt.text = Pref.Coin.ToString();
+        }
+
+        public void UpdateHomeHeart()
+        {
+            heartTxt.text = Pref.Heart.ToString();
         }
 
     }

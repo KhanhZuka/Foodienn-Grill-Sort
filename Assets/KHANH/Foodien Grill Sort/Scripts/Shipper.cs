@@ -102,6 +102,7 @@ namespace KHANH.FoodienGrillSort
             for (int i = 0; i < _orderList.Count; i++)
             {
                 _orderList[i].gameObject.SetActive(false);
+                _orderList[i].transform.GetChild(1).GetComponent<Image>().gameObject.SetActive(false);
             }
 
             for (int i = 0; i < orders.Count; i++)
@@ -141,13 +142,24 @@ namespace KHANH.FoodienGrillSort
             // 1. Kiểm tra food có nằm trong _requiredFoods không
             if (_requiredFoods.Contains(food))
             {
+                int index = -1;
+                for(int i = 0; i < _orderList.Count; i++)
+                {
+                    if (_orderList[i].transform.GetChild(0).GetComponent<Image>().sprite == food)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
                 _requiredFoods.Remove(food);
+                if(index != -1)
+                    _orderList[index].transform.GetChild(1).GetComponent<Image>().gameObject.SetActive(true);
+
                 if (_requiredFoods.Count == 0)
                 {
                     AudioController.Instance.PlaySound(AudioController.Instance.ThankYou);
                     HideCustomer();
-                }
-                    
+                }                  
             }
 
 
