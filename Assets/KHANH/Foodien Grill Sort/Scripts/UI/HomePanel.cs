@@ -36,6 +36,7 @@ namespace KHANH.FoodienGrillSort
 
         private void SetSelectedItem(int index)
         {
+            AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
             ColorUtility.TryParseHtmlString("#00B3FF", out Color selectedColor);
             ColorUtility.TryParseHtmlString("#3B6FC5", out Color normalColor);
 

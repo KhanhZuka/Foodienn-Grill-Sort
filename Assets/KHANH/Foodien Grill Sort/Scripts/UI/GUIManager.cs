@@ -10,23 +10,31 @@ namespace KHANH.FoodienGrillSort
 
         public GameObject homeGUI;
         public GameObject gameGUI;
+
         public Dialog winDialog;
         public Dialog continueDialog;
         public Dialog loseDialog;
         public Dialog skipDeliveryDialog;
+
         public HomePanel homePanel;
         [SerializeField] private Text coinTxt;
         public Text CoinTxt => coinTxt;
+        [SerializeField] private Text _levelTxt;
+        public Text LevelTxt => _levelTxt;
+
         public Text heartTxt;
         public Text timeOfHeartTxt;
         private float timeSecond;
         private int timeOfOneHeart;
+
+        public Image _completeGame;
 
         private void Awake()
         {
             _instance = this;
             coinTxt.text = Pref.Coin.ToString();
             heartTxt.text = Pref.Heart.ToString();
+            _levelTxt.text = "Cấp độ " + (Pref.CurrentLevel + 1).ToString();
         }
 
         private void Update()

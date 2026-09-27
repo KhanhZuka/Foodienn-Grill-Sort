@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace KHANH.FoodienGrillSort
 {
@@ -7,14 +7,16 @@ namespace KHANH.FoodienGrillSort
         private static AudioController _instance;
         public static AudioController Instance => _instance;
 
-        [Header("Main Setting:")]
+        [Header("Main Setting")]
         [Range(0f, 1f)]
         public float musicVol = 0.3f;
+
         [Range(0f, 1f)]
         public float soundVol = 1f;
 
-        public AudioSource musicAus; //nhac nen
-        public AudioSource soundAus; //tieng dong trong game
+        [Header("Audio Source")]
+        public AudioSource musicAus; // Nhạc nền
+        public AudioSource soundAus; // Âm thanh hiệu ứng
 
         [Header("Music and Sound in GamePlay")]
         public AudioClip Bubble;
@@ -24,7 +26,9 @@ namespace KHANH.FoodienGrillSort
         public AudioClip Bip;
         public AudioClip ThankYou;
         public AudioClip LoseGame;
+
         public AudioClip[] bgms;
+
 
         private void Awake()
         {
@@ -33,82 +37,168 @@ namespace KHANH.FoodienGrillSort
 
         private void Start()
         {
-            if (musicAus == null || soundAus == null) return;
+            if (musicAus == null || soundAus == null)
+                return;
 
             musicVol = Pref.musicVol;
             soundVol = Pref.soundVol;
 
-            musicAus.volume = musicVol;
-            soundAus.volume = soundVol;
+            musicAus.volume =
+                Pref.IsMusicStopping ? 0f : musicVol;
+
+            soundAus.volume =
+                Pref.IsSoundStopping ? 0f : soundVol;
         }
+
+
 
         public void PlaySound(AudioClip[] sounds, AudioSource aus = null)
         {
-            if (!aus)
+            if (Pref.IsSoundStopping)
+                return;
+
+            if (aus == null)
                 aus = soundAus;
 
-            if (aus == null) return;
+            if (aus == null)
+                return;
 
-            if (sounds == null || sounds.Length <= 0) return;
+            if (sounds == null || sounds.Length <= 0)
+                return;
 
             int randIdx = Random.Range(0, sounds.Length);
-            if (sounds[randIdx])
-                aus.PlayOneShot(sounds[randIdx], soundVol); // phat 1 am thanh hieu ung trong game
+
+            AudioClip sound = sounds[randIdx];
+
+            if (sound != null)
+            {
+                aus.PlayOneShot(sound, soundVol);
+            }
         }
 
         public void PlaySound(AudioClip sound, AudioSource aus = null)
         {
-            if (!aus)
+            if (Pref.IsSoundStopping)
+                return;
+
+            if (aus == null)
                 aus = soundAus;
 
-            if (aus == null) return;
+            if (aus == null || sound == null)
+                return;
 
-            if (sound)
-                aus.PlayOneShot(sound, soundVol);
+            aus.PlayOneShot(sound, soundVol);
         }
 
-        public void PlayMusic(AudioClip[] musics, int index,bool isLoop = true)
+        public void StopSound()
         {
-            if (musicAus == null || musics == null || musics.Length <= 0) return;
+            Pref.IsSoundStopping = !Pref.IsSoundStopping;
 
-            //int randIdx = Random.Range(0, musics.Length);
-
-            if (musics[index])
+            if (Pref.IsSoundStopping)
             {
-                musicAus.clip = musics[index];
-                musicAus.loop = isLoop;
-                musicAus.volume = musicVol;
-                musicAus.Play();
+                if (soundAus != null)
+                {
+                    soundAus.Stop();
+                    soundAus.volume = 0f;
+                }
+            }
+            else
+            {
+                if (soundAus != null)
+                {
+                    soundAus.volume = Pref.soundVol;
+                }
             }
         }
 
-        public void PlayMusic(AudioClip music, bool isLoop = true)
-        {
-            if (musicAus == null || music == null) return;
 
-            musicAus.clip = music;
+        public void PlayMusic(AudioClip[] musics,int index,bool isLoop = true)
+        {
+            if (musicAus == null)
+                return;
+
+            if (musics == null || musics.Length <= 0)
+                return;
+
+            if (index < 0 || index >= musics.Length)
+                return;
+
+            if (musics[index] == null)
+                return;
+
+            musicAus.clip = musics[index];
             musicAus.loop = isLoop;
-            musicAus.volume = musicVol;
+
+            musicAus.volume =
+                Pref.IsMusicStopping ? 0f : musicVol;
+
             musicAus.Play();
         }
 
-        public void SetMusicVolume(float vol)
+        public void PlayMusic(AudioClip music,bool isLoop = true)
         {
-            if (musicAus == null) return;
+            if (musicAus == null || music == null)
+                return;
 
-            musicAus.volume = vol;
+            musicAus.clip = music;
+            musicAus.loop = isLoop;
+
+            musicAus.volume =
+                Pref.IsMusicStopping ? 0f : musicVol;
+
+            musicAus.Play();
         }
 
         public void StopMusic()
         {
-            if (musicAus == null) return;
+            Pref.IsMusicStopping = !Pref.IsMusicStopping;
+
+            if (musicAus == null)
+                return;
+
+            if (Pref.IsMusicStopping)
+            {
+                musicAus.volume = 0f;
+            }
+            else
+            {
+                musicAus.volume = Pref.musicVol;
+            }
+        }
+
+        public void SetMusicVolume(float vol)
+        {
+            musicVol = Mathf.Clamp01(vol);
+
+            Pref.musicVol = musicVol;
+
+            if (musicAus != null && !Pref.IsMusicStopping)
+            {
+                musicAus.volume = musicVol;
+            }
+        }
+
+
+        public void SetSoundVolume(float vol)
+        {
+            soundVol = Mathf.Clamp01(vol);
+
+            Pref.soundVol = soundVol;
+
+            if (soundAus != null && !Pref.IsSoundStopping)
+            {
+                soundAus.volume = soundVol;
+            }
+        }
+
+
+
+        public void StopOneMusic()
+        {
+            if (musicAus == null)
+                return;
 
             musicAus.Stop();
         }
-
-        //public void PlayBmg()
-        //{
-        //    PlayMusic(bgms);
-        //}
     }
 }

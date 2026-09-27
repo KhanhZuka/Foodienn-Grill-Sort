@@ -50,6 +50,20 @@ namespace KHANH.FoodienGrillSort
                 _foodList[i].gameObject.SetActive(false);
             }
         }
+
+        public bool HasFood
+        {
+            get
+            {
+                for (int i = 0; i < _foodList.Count; i++)
+                {
+                    if (_foodList[i].gameObject.activeInHierarchy)
+                        return true;
+                }
+
+                return false;
+            }
+        }
     }
 }
 

@@ -12,7 +12,7 @@ namespace KHANH.FoodienGrillSort
         {
             base.Show(isShow);
             Shipper.Instance.IsDelivering = false;
-            AudioController.Instance.StopMusic();
+            AudioController.Instance.StopOneMusic();
             GameManager.Instance._isPlaying = false;
         }
 

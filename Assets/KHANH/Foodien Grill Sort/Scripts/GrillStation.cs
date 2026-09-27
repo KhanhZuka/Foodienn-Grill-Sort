@@ -27,7 +27,7 @@ namespace KHANH.FoodienGrillSort
 
         public void OnInitGrill(int totalTray, List<Sprite> listFood)
         {
-            // reset du lieu game cu
+            // Reset dữ liệu game cũ
             _stackTrays.Clear();
 
             for (int i = 0; i < _totalSlot.Count; i++)
@@ -40,65 +40,140 @@ namespace KHANH.FoodienGrillSort
                 _totalTrays[i].OnReset();
             }
 
-            // xu ly set gia tri cho bep truoc, cai khay dau tien tren bep
-            int foodCount = Random.Range(1, _totalSlot.Count + 1);
-            List<Sprite> list = listFood;
-            List<Sprite> listSlot = Utils.TakeAndRemoveRandom<Sprite>(list, foodCount);
 
+            // =========================================
+            // XỬ LÝ FOOD TRÊN BẾP
+            // =========================================
+
+            // Vì totalTray của bạn có tính cả "khay trên bếp"
+            // nên số khay thực sự bên dưới là totalTray - 1
+            int trayCount = totalTray - 1;
+
+            // Một khay chứa tối đa 3 food
+            int trayCapacity = trayCount * 3;
+
+            // Số food tối thiểu phải nằm trên bếp
+            int minFoodOnGrill = Mathf.Max(
+                1,
+                listFood.Count - trayCapacity
+            );
+
+            // Random số food trên bếp
+            int foodCount = Random.Range(
+                minFoodOnGrill,
+                _totalSlot.Count + 1
+            );
+
+
+            // DEBUG
+            Debug.Log(
+                $"{gameObject.name} | " +
+                $"Food: {listFood.Count} | " +
+                $"Tray dưới: {trayCount} | " +
+                $"TrayCapacity: {trayCapacity} | " +
+                $"MinFoodOnGrill: {minFoodOnGrill} | " +
+                $"FoodOnGrill: {foodCount}"
+            );
+
+
+            List<Sprite> list = listFood;
+
+            List<Sprite> listSlot =
+                Utils.TakeAndRemoveRandom<Sprite>(
+                    list,
+                    foodCount
+                );
+
+
+            // Đặt food lên các slot của bếp
             for (int i = 0; i < listSlot.Count; i++)
             {
-                FoodSlot slot = this.RandomSlot();
+                FoodSlot slot = RandomSlot();
+
                 slot.OnSetSlot(listSlot[i]);
             }
 
-            //xu ly dia
-            List<List<Sprite>> remainFood = new List<List<Sprite>>();
 
-            for (int i = 0; i < totalTray - 1; i++) // tru bo dia tren bep
+            // =========================================
+            // XỬ LÝ FOOD TRONG CÁC KHAY
+            // =========================================
+
+            List<List<Sprite>> remainFood =
+                new List<List<Sprite>>();
+
+            for (int i = 0; i < totalTray - 1; i++)
             {
                 if (listFood.Count <= 0)
                 {
                     break;
                 }
-                remainFood.Add(new List<Sprite>());              
-                int n = Random.Range(0, listFood.Count);
-                remainFood[i].Add(listFood[n]);  //it nhat 1 dia co 1 do an
+
+                remainFood.Add(new List<Sprite>());
+
+                int n = Random.Range(
+                    0,
+                    listFood.Count
+                );
+
+                // Mỗi khay ít nhất có 1 food
+                remainFood[i].Add(listFood[n]);
+
                 listFood.RemoveAt(n);
             }
 
-            //random thuc an con lai vao cac dia
+
+            // Random các food còn lại vào khay
             while (listFood.Count > 0)
             {
-                // Chi lay nhung khay con cho
                 List<List<Sprite>> availableTrays =
                     remainFood.FindAll(x => x.Count < 3);
-              
+
                 if (availableTrays.Count == 0)
                 {
                     Debug.LogError(
                         $"Không đủ khay! Còn dư {listFood.Count} food"
                     );
+
                     break;
                 }
 
                 List<Sprite> tray =
-                    availableTrays[Random.Range(0, availableTrays.Count)];
+                    availableTrays[
+                        Random.Range(0, availableTrays.Count)
+                    ];
 
-                int n = Random.Range(0, listFood.Count);
+                int n = Random.Range(
+                    0,
+                    listFood.Count
+                );
 
                 tray.Add(listFood[n]);
+
                 listFood.RemoveAt(n);
             }
 
+
+            // =========================================
+            // SET FOOD CHO TRAYITEM
+            // =========================================
+
             for (int i = 0; i < _totalTrays.Count; i++)
             {
-                bool active = i < remainFood.Count;
-                _totalTrays[i].gameObject.SetActive(active);
+                bool active =
+                    i < remainFood.Count;
+
+                _totalTrays[i]
+                    .gameObject
+                    .SetActive(active);
 
                 if (active)
                 {
-                    _totalTrays[i].OnSetFood(remainFood[i]);
-                    Trayitem item = _totalTrays[i];
+                    _totalTrays[i]
+                        .OnSetFood(remainFood[i]);
+
+                    Trayitem item =
+                        _totalTrays[i];
+
                     _stackTrays.Push(item);
                 }
             }
@@ -137,48 +212,119 @@ namespace KHANH.FoodienGrillSort
             return true;
         }
 
+        //public void OnCheckMerge()
+        //{
+        //    if (this.GetSlotNull() == null) // kiem tra xem so luong slot du 3 item chua, neu chua du thi no == null
+        //    {
+        //        if (this.CanMerge())
+        //        {
+        //            Debug.Log("Complete Grill");
+        //            StartCoroutine(IEMerge());
+
+        //            this.OnPrepareTray(false);
+        //            GameManager.Instance?.OnMinusFood();
+        //            AudioController.Instance.PlaySound(AudioController.Instance.MergeFood);
+        //        }
+        //    }
+
+        //    IEnumerator IEMerge()
+        //    {
+        //        for (int i = 0; i < _totalSlot.Count; i++)
+        //        {
+        //            _totalSlot[i].OnFadeOut();
+        //            yield return new WaitForSeconds(0.1f);
+        //        }
+        //    }
+        //}
         public void OnCheckMerge()
         {
-            if (this.GetSlotNull() == null) // kiem tra xem so luong slot du 3 item chua, neu chua du thi no == null
+            if (GetSlotNull() == null)
             {
-                if (this.CanMerge())
+                if (CanMerge())
                 {
                     Debug.Log("Complete Grill");
+
                     StartCoroutine(IEMerge());
 
-                    this.OnPrepareTray(false);
                     GameManager.Instance?.OnMinusFood();
-                    AudioController.Instance.PlaySound(AudioController.Instance.MergeFood);
+                    AudioController.Instance.PlaySound(
+                        AudioController.Instance.MergeFood
+                    );
                 }
             }
 
             IEnumerator IEMerge()
             {
+                // Cho cả 3 món biến mất cùng lúc
                 for (int i = 0; i < _totalSlot.Count; i++)
                 {
                     _totalSlot[i].OnFadeOut();
-                    yield return new WaitForSeconds(0.1f);
                 }
+
+                // OnFadeOut mất 0.6s
+                yield return new WaitForSeconds(0.6f);
+
+                // Lúc này món cũ đã biến mất hoàn toàn
+                OnPrepareTray();
             }
         }
+
+        //public void OnCheckPrepareTray()
+        //{
+        //    if (this.HasGrillEmpty())
+        //    {
+        //        this.OnPrepareTray(true);
+        //    }
+        //}
 
         public void OnCheckPrepareTray()
         {
-            if (this.HasGrillEmpty())
+            if (HasGrillEmpty())
             {
-                this.OnPrepareTray(true);
+                OnPrepareTray();
             }
         }
 
-        private void OnPrepareTray(bool isNow)
+        //private void OnPrepareTray(bool isNow)
+        //{
+        //    StartCoroutine(IEPrepare());
+
+        //    IEnumerator IEPrepare()
+        //    {
+        //        if (!isNow)
+        //            yield return new WaitForSeconds(0.95f);
+
+        //        if (_stackTrays.Count > 0)
+        //        {
+        //            Trayitem item = _stackTrays.Pop();
+
+        //            for (int i = 0; i < item.FoodList.Count; i++)
+        //            {
+        //                Image img = item.FoodList[i];
+        //                if (img.gameObject.activeInHierarchy)
+        //                {
+        //                    _totalSlot[i].OnPrepareItem(img);
+        //                    img.gameObject.SetActive(false);
+        //                    yield return new WaitForSeconds(0.1f);
+        //                }
+        //            }
+
+        //            CanvasGroup canvas = item.GetComponent<CanvasGroup>();
+        //            canvas.DOFade(0f, 0.5f).OnComplete(() =>
+        //            {
+        //                item.gameObject.SetActive(false);
+        //                canvas.alpha = 1f;
+        //            });
+
+        //        }
+        //    }
+        //}
+        private void OnPrepareTray()
         {
             StartCoroutine(IEPrepare());
 
             IEnumerator IEPrepare()
             {
-                if (!isNow)
-                    yield return new WaitForSeconds(0.95f);
-
                 if (_stackTrays.Count > 0)
                 {
                     Trayitem item = _stackTrays.Pop();
@@ -186,21 +332,24 @@ namespace KHANH.FoodienGrillSort
                     for (int i = 0; i < item.FoodList.Count; i++)
                     {
                         Image img = item.FoodList[i];
+
                         if (img.gameObject.activeInHierarchy)
                         {
                             _totalSlot[i].OnPrepareItem(img);
                             img.gameObject.SetActive(false);
+
                             yield return new WaitForSeconds(0.1f);
                         }
                     }
 
                     CanvasGroup canvas = item.GetComponent<CanvasGroup>();
-                    canvas.DOFade(0f, 0.5f).OnComplete(() =>
-                    {
-                        item.gameObject.SetActive(false);
-                        canvas.alpha = 1f;
-                    });
 
+                    canvas.DOFade(0f, 0.5f)
+                        .OnComplete(() =>
+                        {
+                            item.gameObject.SetActive(false);
+                            canvas.alpha = 1f;
+                        });
                 }
             }
         }
@@ -299,6 +448,31 @@ namespace KHANH.FoodienGrillSort
                     food.DOScale(Vector3.one * targetScale, 0.25f)
                         .SetEase(Ease.OutBack);
                 });
+        }
+
+        public void OnCheckFirstTray()
+        {
+            if (_stackTrays.Count <= 0)
+                return;
+
+            Trayitem firstTray = _stackTrays.Peek();
+
+            // Khay đầu vẫn còn đồ ăn -> không làm gì
+            if (firstTray.HasFood)
+                return;
+
+            // Khay đầu đã hết đồ ăn
+            _stackTrays.Pop();
+
+            firstTray.gameObject.SetActive(false);
+
+            // Sau Pop(), Peek() bây giờ chính là khay tiếp theo
+            if (_stackTrays.Count > 0)
+            {
+                Trayitem nextTray = _stackTrays.Peek();
+
+                nextTray.gameObject.SetActive(true);
+            }
         }
     }
 

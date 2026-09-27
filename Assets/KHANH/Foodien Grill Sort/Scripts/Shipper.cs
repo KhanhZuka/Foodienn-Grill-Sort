@@ -64,7 +64,7 @@ namespace KHANH.FoodienGrillSort
                     }
                     else
                     {
-                        AudioController.Instance.StopMusic();
+                        AudioController.Instance.StopOneMusic();
                         _isDelivering = false;
                         Shipper.Instance.HideCustomer();
                         GUIManager.Instance.continueDialog.Show(true);                        

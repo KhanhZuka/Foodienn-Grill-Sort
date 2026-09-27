@@ -13,7 +13,7 @@ namespace KHANH.FoodienGrillSort
         public static int Coin
         {
             set => PlayerPrefs.SetInt("Coin", value);
-            get => PlayerPrefs.GetInt("Coin", 500);
+            get => PlayerPrefs.GetInt("Coin", 100);
         }
 
         public static int Heart
@@ -31,7 +31,7 @@ namespace KHANH.FoodienGrillSort
         public static float soundVol
         {
             set => PlayerPrefs.SetFloat("SOUND_VOL__PREF", value);
-            get => PlayerPrefs.GetFloat("SOUND_VOL__PREF", 1f);
+            get => PlayerPrefs.GetFloat("SOUND_VOL__PREF", 0.8f);
         }
 
         public static int Magnet
@@ -50,6 +50,28 @@ namespace KHANH.FoodienGrillSort
         {
             set => PlayerPrefs.SetInt("ExtraGrill", value);
             get => PlayerPrefs.GetInt("ExtraGrill", 1);
+        }
+
+        public static void SetBool(string key, bool value)
+        {
+            PlayerPrefs.SetInt(key, value ? 1 : 0);
+        }
+
+        public static bool GetBool(string key, bool defaultValue = false)
+        {
+            return PlayerPrefs.GetInt(key, defaultValue ? 1 : 0) == 1;
+        }
+
+        public static bool IsSoundStopping
+        {
+            set => SetBool("is_sound_stopping", value);
+            get => GetBool("is_sound_stopping", false);
+        }
+
+        public static bool IsMusicStopping
+        {
+            set => SetBool("is_music_stopping", value);
+            get => GetBool("is_music_stopping", false);
         }
     }
 }

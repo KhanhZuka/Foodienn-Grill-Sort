@@ -14,6 +14,8 @@ namespace KHANH.FoodienGrillSort
 
         private GrillStation _grillCtrl;
 
+        private bool _isMerging = false;
+
         private void Awake()
         {
             _imgFood = this.transform.GetChild(0).GetComponent<Image>();
@@ -23,6 +25,7 @@ namespace KHANH.FoodienGrillSort
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public void OnSetSlot(Sprite spr)
         {
+            _isMerging = false;
             _imgFood.gameObject.SetActive(true);
             _imgFood.sprite = spr;
             _imgFood.SetNativeSize();
@@ -71,9 +74,11 @@ namespace KHANH.FoodienGrillSort
 
         public void OnFadeOut()
         {
+            _isMerging = true;
             _imgFood.transform.DOLocalMoveY(100f, 0.6f).OnComplete(() => {
                 this.OnActiveFood(false);
                 _imgFood.transform.localPosition = Vector3.zero;
+                _isMerging = false;
             });
             _imgFood.DOColor(new Color(1f, 1f, 1f, 0f), 0.6f);
         }
@@ -88,6 +93,8 @@ namespace KHANH.FoodienGrillSort
             _imgFood.DOKill();
             _imgFood.transform.DOKill();
 
+            _isMerging = false;
+
             _imgFood.gameObject.SetActive(false);
             _imgFood.color = _normalColor;
 
@@ -98,7 +105,8 @@ namespace KHANH.FoodienGrillSort
 
         public FoodSlot GetSlotNull => _grillCtrl.GetSlotNull();
 
-        public bool HasFood => _imgFood.gameObject.activeInHierarchy && _imgFood.color == _normalColor;
+        public bool HasFood =>_imgFood.gameObject.activeInHierarchy &&_imgFood.color == _normalColor &&!_isMerging;
+
         public Sprite GetSpriteFood => _imgFood.sprite;
     }
 
