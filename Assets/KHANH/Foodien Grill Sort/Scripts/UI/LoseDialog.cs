@@ -30,7 +30,7 @@ namespace KHANH.FoodienGrillSort
             Pref.Heart--;
             GUIManager.Instance.ShowGameGUI(false);
             gameObject.SetActive(false);
-            AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 0);
+            AudioController.Instance.PlayMusic(AudioController.Instance.Bgms, 0);
         }
 
 

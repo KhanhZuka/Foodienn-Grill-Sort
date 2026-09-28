@@ -7,7 +7,7 @@ namespace KHANH.FoodienGrillSort
 {
     public class ShopDialog : Dialog
     {
-        [SerializeField] private Text coinTxt;
+        [SerializeField] private Text _coinTxt;
         [SerializeField] private List<GiftPack> _giftPacks;
         [SerializeField] private Text _buyNotice;
         [SerializeField] private RectTransform _coinUI;
@@ -53,7 +53,7 @@ namespace KHANH.FoodienGrillSort
 
                 Pref.Coin -= gift.Price;
 
-                coinTxt.text = Pref.Coin.ToString();
+                _coinTxt.text = Pref.Coin.ToString();
 
                 GUIManager.Instance.UpdateHomeCoin();
                 GUIManager.Instance.UpdateHomeHeart();
@@ -119,7 +119,7 @@ namespace KHANH.FoodienGrillSort
 
             if (isShow)
             {
-                coinTxt.text = Pref.Coin.ToString();
+                _coinTxt.text = Pref.Coin.ToString();
             }
         }
 

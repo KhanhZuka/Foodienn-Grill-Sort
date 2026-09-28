@@ -4155,6 +4155,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144010820}
   m_CullTransparentMesh: 1
+--- !u!1 &146527098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 146527099}
+  - component: {fileID: 146527101}
+  - component: {fileID: 146527100}
+  m_Layer: 5
+  m_Name: BanImg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &146527099
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146527098}
+  m_LocalRotation: {x: 0, y: 0, z: 0.3876765, w: 0.9217955}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 794854364}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45.62}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0000009536743, y: 0.00000023841858}
+  m_SizeDelta: {x: 124.98, y: 23.83}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &146527100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146527098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 70b09951b49e3ae4bb39a4871ddaa7c9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &146527101
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146527098}
+  m_CullTransparentMesh: 1
 --- !u!1 &147645966
 GameObject:
   m_ObjectHideFlags: 0
@@ -9222,7 +9297,7 @@ GameObject:
   - component: {fileID: 416310645}
   - component: {fileID: 416310644}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: CoinTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15277,7 +15352,7 @@ GameObject:
   - component: {fileID: 646686724}
   - component: {fileID: 646686723}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: CoinTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17286,6 +17361,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723771547}
   m_CullTransparentMesh: 1
+--- !u!1 &724508532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 724508533}
+  - component: {fileID: 724508535}
+  - component: {fileID: 724508534}
+  m_Layer: 5
+  m_Name: BanImg (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &724508533
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724508532}
+  m_LocalRotation: {x: -0, y: -0, z: 0.3876765, w: 0.9217955}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1094438410}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45.62}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 124.98, y: 23.83}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &724508534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724508532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 70b09951b49e3ae4bb39a4871ddaa7c9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &724508535
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724508532}
+  m_CullTransparentMesh: 1
 --- !u!1 &727021928
 GameObject:
   m_ObjectHideFlags: 0
@@ -18475,7 +18625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741e8bf31ac164345991c4fffb39d522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHANH.FoodienGrillSort.ContinueDialog
-  insufficientCoinsNotice: {fileID: 1580581809}
+  _insufficientCoinsNotice: {fileID: 1580581809}
 --- !u!1 &782163651
 GameObject:
   m_ObjectHideFlags: 0
@@ -18610,7 +18760,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 146527099}
   m_Father: {fileID: 1805699109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -21442,10 +21593,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a41e82a12ce8d743bbd24ea95bb8bb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHANH.FoodienGrillSort.AudioController
-  musicVol: 0.3
-  soundVol: 1
-  musicAus: {fileID: 902051065}
-  soundAus: {fileID: 902051068}
+  MusicVol: 0.3
+  SoundVol: 1
+  MusicAus: {fileID: 902051065}
+  SoundAus: {fileID: 902051068}
   Bubble: {fileID: 8300000, guid: 744c712a4e896264da3df5522bcbb038, type: 3}
   GrilledMeat: {fileID: 8300000, guid: 5ad4bf79d96f3e84cbf88e82babe40b6, type: 3}
   MergeFood: {fileID: 8300000, guid: bbbaffee1d4641f41854a9c7f49f2fff, type: 3}
@@ -21453,9 +21604,11 @@ MonoBehaviour:
   Bip: {fileID: 8300000, guid: 862ff9584c718604590ed26e983e8edb, type: 3}
   ThankYou: {fileID: 8300000, guid: 0df49a20b8786c740a1dd316209349ff, type: 3}
   LoseGame: {fileID: 8300000, guid: 535d5163c274ce44f872c4ba1dd91732, type: 3}
-  bgms:
+  Bgms:
   - {fileID: 8300000, guid: 1680d4463461bf24b9ed90fbda297ab6, type: 3}
   - {fileID: 8300000, guid: 6ebdce629b8ec02479de94407b33e3fd, type: 3}
+  BanMusicImg: {fileID: 2030695128}
+  BanSoundImg: {fileID: 146527100}
 --- !u!82 &902051068
 AudioSource:
   m_ObjectHideFlags: 0
@@ -22706,7 +22859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b8fa4243dccc1479db94387b07b08d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHANH.FoodienGrillSort.SkipDeliveryDialog
-  insufficientCoinsNotice: {fileID: 1092582144}
+  _insufficientCoinsNotice: {fileID: 1092582144}
 --- !u!1 &951865078
 GameObject:
   m_ObjectHideFlags: 0
@@ -22757,11 +22910,12 @@ MonoBehaviour:
   _gridLayout: {fileID: 1955558017}
   _foodProgressText: {fileID: 952319541}
   _timeTxt: {fileID: 1020807019}
-  _seconds: 0
+  Second: 0
   _magnetTxt: {fileID: 1410788691}
   _shuffleTxt: {fileID: 446946105}
   _extraGrillTxt: {fileID: 760560031}
-  _isPlaying: 0
+  IsPlaying: 0
+  _levelText: {fileID: 1600462711}
 --- !u!4 &951865080
 Transform:
   m_ObjectHideFlags: 0
@@ -26421,7 +26575,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 724508533}
   m_Father: {fileID: 1805699109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -29097,7 +29252,7 @@ MonoBehaviour:
   ShopBtn: {fileID: 1056073020}
   HomeBtn: {fileID: 539821879}
   RankBtn: {fileID: 407413364}
-  rankDialog: {fileID: 1288214523}
+  _rankDialog: {fileID: 1288214523}
 --- !u!1 &1215123634
 GameObject:
   m_ObjectHideFlags: 0
@@ -32585,7 +32740,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2030695130}
   m_Father: {fileID: 1805699109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -33079,7 +33235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e66d8909314234d9f6cc05a2aa32d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHANH.FoodienGrillSort.ShopDialog
-  coinTxt: {fileID: 646686723}
+  _coinTxt: {fileID: 646686723}
   _giftPacks:
   - {fileID: 1736177099}
   - {fileID: 371736313}
@@ -37927,7 +38083,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: LV.11
+  m_Text: LV.
 --- !u!222 &1600462712
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -41956,7 +42112,7 @@ GameObject:
   - component: {fileID: 1735294907}
   - component: {fileID: 1735294906}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: LevelTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44852,7 +45008,7 @@ GameObject:
   - component: {fileID: 1855133374}
   - component: {fileID: 1855133373}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: TimeOfHeartTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47888,6 +48044,81 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &2030695127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2030695130}
+  - component: {fileID: 2030695129}
+  - component: {fileID: 2030695128}
+  m_Layer: 5
+  m_Name: BanImg (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &2030695128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030695127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 70b09951b49e3ae4bb39a4871ddaa7c9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2030695129
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030695127}
+  m_CullTransparentMesh: 1
+--- !u!224 &2030695130
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030695127}
+  m_LocalRotation: {x: -0, y: -0, z: 0.3876765, w: 0.9217955}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1349810255}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45.62}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 124.98, y: 23.83}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2030763871
 GameObject:
   m_ObjectHideFlags: 0
@@ -48096,18 +48327,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8323710eb93d2f34ea33c53d1ca592b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHANH.FoodienGrillSort.GUIManager
-  homeGUI: {fileID: 182969999}
-  gameGUI: {fileID: 756156782}
-  winDialog: {fileID: 965986948}
-  continueDialog: {fileID: 781740169}
-  loseDialog: {fileID: 77294888}
-  skipDeliveryDialog: {fileID: 940510945}
-  homePanel: {fileID: 1214930532}
-  coinTxt: {fileID: 416310644}
+  HomeGUI: {fileID: 182969999}
+  GameGUI: {fileID: 756156782}
+  WinDialog: {fileID: 965986948}
+  ContinueDialog: {fileID: 781740169}
+  LoseDialog: {fileID: 77294888}
+  SkipDeliveryDialog: {fileID: 940510945}
+  HomePanel: {fileID: 1214930532}
+  _coinTxt: {fileID: 416310644}
   _levelTxt: {fileID: 1735294907}
-  heartTxt: {fileID: 685881695}
-  timeOfHeartTxt: {fileID: 1855133373}
-  _completeGame: {fileID: 2070156619}
+  HeartTxt: {fileID: 685881695}
+  TimeOfHeartTxt: {fileID: 1855133373}
+  CompleteGame: {fileID: 2070156619}
 --- !u!4 &2050249949
 Transform:
   m_ObjectHideFlags: 0
@@ -48652,7 +48883,7 @@ GameObject:
   - component: {fileID: 2070156620}
   - component: {fileID: 2070156619}
   m_Layer: 5
-  m_Name: Image
+  m_Name: CompleteGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

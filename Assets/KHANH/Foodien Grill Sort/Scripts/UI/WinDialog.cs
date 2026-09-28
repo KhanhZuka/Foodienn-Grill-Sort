@@ -13,7 +13,7 @@ namespace KHANH.FoodienGrillSort
         {
             AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
             base.Close();           
-            AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 0);
+            AudioController.Instance.PlayMusic(AudioController.Instance.Bgms, 0);
         }
     }
 }

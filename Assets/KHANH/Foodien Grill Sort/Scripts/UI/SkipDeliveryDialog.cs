@@ -6,23 +6,30 @@ namespace KHANH.FoodienGrillSort
 {
     public class SkipDeliveryDialog : Dialog
 {
-        [SerializeField] private Image insufficientCoinsNotice;
+        [SerializeField] private Image _insufficientCoinsNotice;
 
         public override void Show(bool isShow)
         {
             base.Show(isShow);
+
             Shipper.Instance.IsDelivering = false;
-            AudioController.Instance.StopOneMusic();
-            GameManager.Instance._isPlaying = false;
+            GameManager.Instance.IsPlaying = false;
+
+            AudioController.Instance.PauseMusic();
         }
 
         public override void Close()
         {
-            AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
+            AudioController.Instance.PlaySound(
+                AudioController.Instance.Bubble
+            );
+
             base.Close();
-            GameManager.Instance._isPlaying = true;
+
+            GameManager.Instance.IsPlaying = true;
             Shipper.Instance.IsDelivering = true;
-            AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 1);
+
+            AudioController.Instance.ResumeMusic();
         }
 
         public void CloseContinueDialog()
@@ -30,23 +37,24 @@ namespace KHANH.FoodienGrillSort
             if (Pref.Coin >= 30)
             {
                 AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
-                gameObject?.SetActive(false);
-                GameManager.Instance._isPlaying = true;
-                Pref.Coin -= 30;
-                GUIManager.Instance.UpdateHomeCoin();
                 Shipper.Instance.HideCustomer();
-                //AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 1);
+                Shipper.Instance.RemoveShipperOrder();
+                gameObject?.SetActive(false);
+                GameManager.Instance.IsPlaying = true;
+                Pref.Coin -= 30;
+                GUIManager.Instance.UpdateHomeCoin();              
+                AudioController.Instance.ResumeMusic();
             }
             else
             {
                 // Debug.Log("Ban khong du coin");
-                insufficientCoinsNotice.gameObject.SetActive(true);
+                _insufficientCoinsNotice.gameObject.SetActive(true);
                 StartCoroutine(IENotice());
 
                 IEnumerator IENotice()
                 {
                     yield return new WaitForSeconds(1);
-                    insufficientCoinsNotice.gameObject.SetActive(false);
+                    _insufficientCoinsNotice.gameObject.SetActive(false);
                 }
             }
         }

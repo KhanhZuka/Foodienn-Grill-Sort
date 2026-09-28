@@ -9,7 +9,7 @@ namespace KHANH.FoodienGrillSort
         public Button ShopBtn;
         public Button HomeBtn;
         public Button RankBtn;       
-        [SerializeField] private Image rankDialog;
+        [SerializeField] private Image _rankDialog;
 
         private void Awake()
         {
@@ -92,12 +92,12 @@ namespace KHANH.FoodienGrillSort
 
         public void SetActiveTrueRankDialog()
         {
-            rankDialog.gameObject.SetActive (true);
+            _rankDialog.gameObject.SetActive (true);
         }
 
         public void SetActiveFalseRankDialog()
         {
-            rankDialog.gameObject.SetActive (false);
+            _rankDialog.gameObject.SetActive (false);
         }
 
 

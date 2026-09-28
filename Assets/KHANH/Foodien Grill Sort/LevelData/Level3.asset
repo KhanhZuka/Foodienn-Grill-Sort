@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2c050c7dfb76647abffde35671d5cf, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: Assembly-CSharp::KHANH.FoodienGrillSort.LevelData
-  allFood: 14
-  totalFood: 12
-  totalGrill: 7
-  levelTime: 110
-  coin: 30
+  AllFood: 16
+  TotalFood: 14
+  TotalGrill: 7
+  LevelTime: 130
+  Coin: 60
   ShipperTriggerFoodCount: 8
-  requiredFoodCount: 2
-  shipperTime: 30
+  RequiredFoodCount: 2
+  ShipperTime: 30

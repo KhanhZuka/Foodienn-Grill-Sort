@@ -7,14 +7,14 @@ namespace KHANH.FoodienGrillSort
         {
             base.Show(isShow);
             AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
-            GameManager.Instance._isPlaying = false;
+            GameManager.Instance.IsPlaying = false;
         }
 
         public override void Close()
         {
             base.Close();
             AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
-            GameManager.Instance._isPlaying = true;
+            GameManager.Instance.IsPlaying = true;
         }
 
         public void ClosePauseAndGameGui()
@@ -22,7 +22,7 @@ namespace KHANH.FoodienGrillSort
             AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
             gameObject?.SetActive(false);
             GUIManager.Instance.ShowGameGUI(false);
-            AudioController.Instance.PlayMusic(AudioController.Instance.bgms, 0);
+            AudioController.Instance.PlayMusic(AudioController.Instance.Bgms, 0);
         }
     }
 }

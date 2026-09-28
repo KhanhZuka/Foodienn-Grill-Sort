@@ -212,30 +212,6 @@ namespace KHANH.FoodienGrillSort
             return true;
         }
 
-        //public void OnCheckMerge()
-        //{
-        //    if (this.GetSlotNull() == null) // kiem tra xem so luong slot du 3 item chua, neu chua du thi no == null
-        //    {
-        //        if (this.CanMerge())
-        //        {
-        //            Debug.Log("Complete Grill");
-        //            StartCoroutine(IEMerge());
-
-        //            this.OnPrepareTray(false);
-        //            GameManager.Instance?.OnMinusFood();
-        //            AudioController.Instance.PlaySound(AudioController.Instance.MergeFood);
-        //        }
-        //    }
-
-        //    IEnumerator IEMerge()
-        //    {
-        //        for (int i = 0; i < _totalSlot.Count; i++)
-        //        {
-        //            _totalSlot[i].OnFadeOut();
-        //            yield return new WaitForSeconds(0.1f);
-        //        }
-        //    }
-        //}
         public void OnCheckMerge()
         {
             if (GetSlotNull() == null)
@@ -269,14 +245,6 @@ namespace KHANH.FoodienGrillSort
             }
         }
 
-        //public void OnCheckPrepareTray()
-        //{
-        //    if (this.HasGrillEmpty())
-        //    {
-        //        this.OnPrepareTray(true);
-        //    }
-        //}
-
         public void OnCheckPrepareTray()
         {
             if (HasGrillEmpty())
@@ -285,40 +253,6 @@ namespace KHANH.FoodienGrillSort
             }
         }
 
-        //private void OnPrepareTray(bool isNow)
-        //{
-        //    StartCoroutine(IEPrepare());
-
-        //    IEnumerator IEPrepare()
-        //    {
-        //        if (!isNow)
-        //            yield return new WaitForSeconds(0.95f);
-
-        //        if (_stackTrays.Count > 0)
-        //        {
-        //            Trayitem item = _stackTrays.Pop();
-
-        //            for (int i = 0; i < item.FoodList.Count; i++)
-        //            {
-        //                Image img = item.FoodList[i];
-        //                if (img.gameObject.activeInHierarchy)
-        //                {
-        //                    _totalSlot[i].OnPrepareItem(img);
-        //                    img.gameObject.SetActive(false);
-        //                    yield return new WaitForSeconds(0.1f);
-        //                }
-        //            }
-
-        //            CanvasGroup canvas = item.GetComponent<CanvasGroup>();
-        //            canvas.DOFade(0f, 0.5f).OnComplete(() =>
-        //            {
-        //                item.gameObject.SetActive(false);
-        //                canvas.alpha = 1f;
-        //            });
-
-        //        }
-        //    }
-        //}
         private void OnPrepareTray()
         {
             StartCoroutine(IEPrepare());

@@ -30,6 +30,13 @@ namespace KHANH.FoodienGrillSort
         private int _waitTimeOfShipper;
         private int _minutes;
         private int _seconds;
+
+        public int Second
+        {
+            get => _seconds;
+            set => _seconds = value;
+        }
+
         private float _timePerSecond = 0f;
 
         private void Awake()
@@ -64,10 +71,10 @@ namespace KHANH.FoodienGrillSort
                     }
                     else
                     {
-                        AudioController.Instance.StopOneMusic();
+                        AudioController.Instance.PauseMusic();
                         _isDelivering = false;
-                        Shipper.Instance.HideCustomer();
-                        GUIManager.Instance.continueDialog.Show(true);                        
+                        //Shipper.Instance.HideCustomer();
+                        GUIManager.Instance.ContinueDialog.ShowShipperDialog();                       
                         AudioController.Instance.PlaySound(AudioController.Instance.LoseGame);                      
                     }
 
@@ -84,7 +91,7 @@ namespace KHANH.FoodienGrillSort
         public void ShowCustomer()
         {
             _isDelivering = true;
-            _waitTimeOfShipper = GameManager.Instance.waitShipperTime;
+            _waitTimeOfShipper = GameManager.Instance.WaitShipperTime;
             _minutes = _waitTimeOfShipper / 60;
             _seconds = _waitTimeOfShipper - _minutes * 60;
             _shipperTimeTxt.text = _minutes.ToString() + ":" + _seconds.ToString();
@@ -139,39 +146,51 @@ namespace KHANH.FoodienGrillSort
 
         public void OnFoodCompleted(Sprite food)
         {
-            // 1. Kiểm tra food có nằm trong _requiredFoods không
-            if (_requiredFoods.Contains(food))
-            {
-                int index = -1;
-                for(int i = 0; i < _orderList.Count; i++)
-                {
-                    if (_orderList[i].transform.GetChild(0).GetComponent<Image>().sprite == food)
-                    {
-                        index = i;
-                        break;
-                    }
-                }
-                _requiredFoods.Remove(food);
-                if(index != -1)
-                    _orderList[index].transform.GetChild(1).GetComponent<Image>().gameObject.SetActive(true);
+            if (food == null)
+                return;
 
-                if (_requiredFoods.Count == 0)
+            if (!_requiredFoods.Contains(food))
+                return;
+
+            _requiredFoods.Remove(food);
+
+            for (int i = 0; i < _orderList.Count; i++)
+            {
+                Image orderItem = _orderList[i];
+
+                if (orderItem == null)
+                    continue;
+
+                Image foodImage =
+                    orderItem.transform.GetChild(0).GetComponent<Image>();
+
+                if (foodImage == null || foodImage.sprite != food)
+                    continue;
+
+                Image completedImage =
+                    orderItem.transform.GetChild(1).GetComponent<Image>();
+
+                if (completedImage != null)
                 {
-                    AudioController.Instance.PlaySound(AudioController.Instance.ThankYou);
-                    HideCustomer();
-                }                  
+                    completedImage.gameObject.SetActive(true);
+                }
+
+                break;
             }
 
+            if (_requiredFoods.Count == 0)
+            {
+                AudioController.Instance.PlaySound(
+                    AudioController.Instance.ThankYou
+                );
 
-            // 2. Nếu có:
-            //    Xóa food đó khỏi _requiredFoods
+                HideCustomer();
+            }
+        }
 
-            // 3. Tìm Image tương ứng trong _orderList
-            //    rồi thể hiện rằng món đó đã hoàn thành
-
-            // 4. Nếu _requiredFoods.Count == 0
-            //    => tất cả đơn hàng đã hoàn thành
-            //    => HideCustomer()
+        public void RemoveShipperOrder()
+        {
+            _requiredFoods.Clear();
         }
     }
 }
