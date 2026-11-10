@@ -31,6 +31,7 @@ namespace KHANH.FoodienGrillSort
             GUIManager.Instance.ShowGameGUI(false);
             gameObject.SetActive(false);
             AudioController.Instance.PlayMusic(AudioController.Instance.Bgms, 0);
+            Shipper.Instance.RemoveShipperOrder();
         }
 
 

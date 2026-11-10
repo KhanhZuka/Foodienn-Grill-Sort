@@ -15,7 +15,7 @@ MonoBehaviour:
   AllFood: 26
   TotalFood: 22
   TotalGrill: 8
-  LevelTime: 160
+  LevelTime: 250
   Coin: 100
   ShipperTriggerFoodCount: 10
   RequiredFoodCount: 3

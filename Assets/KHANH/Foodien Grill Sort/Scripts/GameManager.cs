@@ -56,6 +56,8 @@ namespace KHANH.FoodienGrillSort
 
         [SerializeField] private Text _levelText;
 
+        [SerializeField] private ParticleSystem extraGrillEffect;
+
         private void Awake()
         {
             _listGrills = Utils.GetListInChild<GrillStation>(_gridGrill);
@@ -149,7 +151,7 @@ namespace KHANH.FoodienGrillSort
                 GUIManager.Instance.ShowGameGUI(true);
                 Shipper.Instance.HideCustomer();
                 OnInitLevel();
-                _levelText.text += (Pref.CurrentLevel + 1).ToString();
+                _levelText.text = "LV." + (Pref.CurrentLevel + 1).ToString();
             }
         }
 
@@ -539,22 +541,38 @@ namespace KHANH.FoodienGrillSort
             if (Pref.ExtraGrill <= 0)
                 return;
 
-            AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
             foreach (var grill in _listGrills)
             {
                 if (!grill.gameObject.activeInHierarchy)
                 {
-                    // Bật bếp mới
+                    // Phát hiệu ứng tại vị trí bếp mới
+                    PlayExtraGrillEffect(grill.transform.position);
+
                     grill.gameObject.SetActive(true);
 
                     UpdateGrillSize();
 
-                    // Chỉ thêm 1 bếp
+                    AudioController.Instance.PlaySound(AudioController.Instance.Bubble);
+
+                    Pref.ExtraGrill--;
+                    _extraGrillTxt.text = Pref.ExtraGrill.ToString();
+
                     break;
                 }
             }
-            Pref.ExtraGrill--;
-            _extraGrillTxt.text = Pref.ExtraGrill.ToString();
+        }
+
+        private void PlayExtraGrillEffect(Vector3 position)
+        {
+            position.y -= 0.9f;
+
+            ParticleSystem particles = Instantiate(
+                extraGrillEffect,
+                position,
+                Quaternion.identity, transform
+            );
+
+            particles.Play();
         }
 
         private void UpdateGrillSize()
@@ -594,9 +612,7 @@ namespace KHANH.FoodienGrillSort
             }
         }
 
-    
-
-    public List<Sprite> OnShipper()
+        public List<Sprite> OnShipper()
         {
             List<Sprite> curentFood = new List<Sprite>();
             for (int i = 0; i < _listGrills.Count; i++)
